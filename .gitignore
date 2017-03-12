@@ -19,3 +19,9 @@ rebel.*
 .rebel.*
 
 target
+
+#eclipse
+RemoteSystemsTempFiles
+.classpath
+.settings
+.project

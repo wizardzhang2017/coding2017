@@ -1,6 +1,8 @@
 package com.coding.coderising.litestruts;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,8 +13,16 @@ import java.util.Map;
 
 
 public class StrutsTest {
+    @Before
+    public void before() throws Exception {
+        Struts.init();
+    }
 
-	@Test
+    @After
+    public void after() throws Exception {
+    }
+
+    @Test
 	public void testLoginActionSuccess() {
 		
 		String actionName = "login";

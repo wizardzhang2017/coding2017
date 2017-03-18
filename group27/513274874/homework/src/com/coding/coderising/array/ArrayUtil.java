@@ -10,14 +10,14 @@ public class ArrayUtil {
      * @param origin
      * @return
      */
-    public void reverseArray(final int[] origin) {
+    public static void reverseArray(final int[] origin) {
         int size = origin.length;
         if (size <= 0) return;
 
-        int[] newArray = this.copyOf(origin);
+        int[] newArray = copyOf(origin);
 
         for (int i = 0; i < size; i++) {
-            origin[i] = newArray[size - i];
+            origin[i] = newArray[size - 1 - i];
         }
     }
 
@@ -30,7 +30,7 @@ public class ArrayUtil {
      * @return
      */
 
-    public int[] removeZero(int[] oldArray) {
+    public static int[] removeZero(int[] oldArray) {
         int size = oldArray.length;
         int countZero = 0;
         //首先判断数组中0的个数
@@ -43,7 +43,6 @@ public class ArrayUtil {
         for (int i = 0; i < size; i++) {
             if (oldArray[i] == 0) continue;
             newArray[cur++] = oldArray[i];
-            //cur++;
         }
 
         return newArray;
@@ -58,7 +57,7 @@ public class ArrayUtil {
      * @return
      */
 
-    public int[] merge(int[] array1, int[] array2) {
+    public static int[] merge(int[] array1, int[] array2) {
         //判断数组是否为空
         int size1 = array1.length;
         int size2 = array2.length;
@@ -97,7 +96,7 @@ public class ArrayUtil {
      * @param size
      * @return
      */
-    public int[] grow(int[] oldArray, int size) {
+    public static int[] grow(int[] oldArray, int size) {
         int oldSize = oldArray.length;
         if (oldSize == 0) return new int[size];
 
@@ -117,19 +116,25 @@ public class ArrayUtil {
      * @param max
      * @return
      */
-    public int[] fibonacci(int max) {
+    public static int[] fibonacci(int max) {
         //先确定数组长度
         if (max == 1) return new int[]{};
         //这里的cur指的是数组的下标，从0开始，而不是数学函数1开始
-        int cur = 1;
-        while (cur * 2 - 1 <= max) {
+        int cur = 2;
+        int val_1 = 1;
+        int val_2 = 1;
+        while (val_1 + val_2 <= max) {
+            int temp = val_1;
+            val_1 = val_2;
+            val_2 += temp;
             ++cur;
         }
 
-        int[] newArray = new int[cur + 1];
-        for (int i = 0; i <= cur + 1; i++) {
+        int[] newArray = new int[cur];
+        for (int i = 0; i < cur; i++) {
             if (i == 0 || i == 1) {
                 newArray[i] = 1;
+                continue;
             }
             newArray[i] = newArray[i - 1] + newArray[i - 2];
 
@@ -144,34 +149,43 @@ public class ArrayUtil {
      * @param max
      * @return
      */
-    public int[] getPrimes(int max) {
+    public static int[] getPrimes(int max) {
         //先确定数组长度
         //判断质数循环
         int count = 0;
-        for (int i = 1; i <= max; i++) {
+        for (int i = 1; i < max; i++) {
             //去掉偶数
             if (i == 1 || (i % 2 == 0 && i != 2)) continue;
-            //判断到开根号即可
+            boolean flag = true;
             for (int j = 3; j <= Math.sqrt(i); j += 2) {
                 if (i % j == 0) {
-                    ++count;
+                    flag = false;
                     break;
                 }
             }
+            if (flag) count++;
         }
         int[] newArray = new int[count];
         int cur = 0;
-        for (int i = 1; i <= max; i++) {
+        for (int i = 1; i < max; i++) {
             //去掉偶数
             if (i == 1 || (i % 2 == 0 && i != 2)) continue;
             //判断到开根号即可
+            boolean flag = true;
             for (int j = 3; j <= Math.sqrt(i); j += 2) {
                 if (i % j == 0) {
-                    newArray[cur] = i;
-                    ++cur;
+                    flag = false;
+
                 }
             }
+            if (flag) {
+                newArray[cur] = i;
+                ++cur;
+            }
+
         }
+
+
         return newArray;
     }
 
@@ -182,27 +196,26 @@ public class ArrayUtil {
      * @param max
      * @return
      */
-    public int[] getPerfectNumbers(int max) {
+    public static int[] getPerfectNumbers(int max) {
         //求数组长度
         int count = 0;
-        for(int a=1;a<=max;a++){
-            int sum=0;
-            for(int i=1;i<=a/2;i++)
-                if(a%i==0)
-                    sum+=i;
-            if(a==sum)
+        for (int a = 1; a <= max; a++) {
+            int sum = 0;
+            for (int i = 1; i <= a / 2; i++)
+                if (a % i == 0)
+                    sum += i;
+            if (a == sum)
                 ++count;
         }
 
         int[] newArray = new int[count];
         int cur = 0;
-        for(int a=1;a<=max;a++){
-            int sum=0;
-            for(int i=1;i<=a/2;i++)
-                if(a%i==0)
-                    sum+=i;
-            if(a==sum)
-            {
+        for (int a = 1; a <= max; a++) {
+            int sum = 0;
+            for (int i = 1; i <= a / 2; i++)
+                if (a % i == 0)
+                    sum += i;
+            if (a == sum) {
                 newArray[cur] = a;
                 ++cur;
             }
@@ -220,7 +233,7 @@ public class ArrayUtil {
      * @param seperator
      * @return
      */
-    public String join(int[] array, String seperator) {
+    public static String join(int[] array, String seperator) {
         int size = array.length;
         if (size == 0) return "";
         StringBuffer sb = new StringBuffer("");
@@ -235,7 +248,7 @@ public class ArrayUtil {
     /**
      * 类私有函数，复制返回一个新的数组
      */
-    private int[] copyOf(int[] source) {
+    private static int[] copyOf(int[] source) {
         int size = source.length;
         if (size <= 0) return null;
 
